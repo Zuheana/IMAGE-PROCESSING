@@ -1,0 +1,30 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load the grayscale image
+image = cv2.imread(r'C:\Users\SHREEKSHITHA\Pictures\nature.jpg')
+if image is None:
+    raise FileNotFoundError("The image file 'nature.jpg' was not found.")
+
+# Apply Gaussian Blur (kernel size = 5x5)
+gaussian_blur = cv2.GaussianBlur(image, (5, 5), 0)
+
+# Apply Median Blur (kernel size = 5)
+median_blur = cv2.medianBlur(image, 5)
+
+# Apply Laplacian Filter (kernel size = 3)
+laplacian = cv2.Laplacian(image, cv2.CV_64F)
+laplacian = cv2.convertScaleAbs(laplacian)  # Convert to 8-bit image
+
+# Display the images
+titles = ['Original Image', 'Gaussian Blur', 'Median Blur', 'Laplacian Filter']
+images = [image, gaussian_blur, median_blur, laplacian]
+plt.figure(figsize=(12, 6))
+for i in range(4):
+    plt.subplot(1, 4, i + 1)
+    plt.imshow(cv2.cvtColor(images[i], cv2.COLOR_BGR2RGB))  # Convert BGR to RGB for correct color display
+    plt.title(titles[i])
+    plt.axis('off')
+plt.tight_layout()
+plt.show()
