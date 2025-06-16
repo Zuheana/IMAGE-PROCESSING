@@ -1,0 +1,27 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+# Load the binary image
+image = cv2.imread(r&#39;C:\Users\SHREEKSHITHA\Pictures\nature.jpg&#39;)
+if image is None:
+raise FileNotFoundError(&quot;The image file &#39;binary_image.jpg&#39; was not found.&quot;)
+# Convert to binary (in case it&#39;s not already binary)
+_, binary_image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+# Define a 3x3 structuring element
+kernel = np.ones((3, 3), np.uint8)
+# Apply morphological operations
+eroded = cv2.erode(binary_image, kernel, iterations=1)
+dilated = cv2.dilate(binary_image, kernel, iterations=1)
+opening = cv2.morphologyEx(binary_image, cv2.MORPH_OPEN, kernel)
+closing = cv2.morphologyEx(binary_image, cv2.MORPH_CLOSE, kernel)
+# Display results
+titles = [&#39;Original Binary&#39;, &#39;Erosion&#39;, &#39;Dilation&#39;, &#39;Opening&#39;, &#39;Closing&#39;]
+images = [binary_image, eroded, dilated, opening, closing]
+plt.figure(figsize=(15, 8))
+for i in range(5):
+plt.subplot(2, 3, i + 1)
+plt.imshow(images[i], cmap=&#39;gray&#39;)
+plt.title(titles[i])
+plt.axis(&#39;off&#39;)
+plt.tight_layout()
+plt.show()
